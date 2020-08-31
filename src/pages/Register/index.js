@@ -1,10 +1,13 @@
-import React from 'react';
-import { Form } from 'antd';
+import React, { useState } from 'react';
+import { Form, Popover, Progress } from 'antd';
 import InputItem from '../../components/InputItem';
 import styles from './index.module.css';
 
 const Register = () => {
+  const [visible, setVisible] = useState(false); // hook
+  const [popover, setPopover] = useState(false); // hook
   const[form] = Form.useForm(); // hook
+
   const handleFinish = (values) => {
     console.log(values);
   }
@@ -18,13 +21,31 @@ const Register = () => {
 
   const checkPassword = (_, value) => {
     const promise = Promise;
-    //if (!value) {
-    //  return promise.reject('请输入密码');
-    //}
+    if (!value) {
+      setVisible(!!value);
+      return promise.reject('请输入密码');
+    }
+    if (!visible) {
+      setVisible(!!value);
+    }
+    setPopover(!popover); // to let the state keep changing while typing, thus re-render the popover
     if (value && form.getFieldValue('confirm')) {
       form.validateFields(['confirm']);
     }
     return promise.resolve();
+  }
+
+  const renderPasswordProgress = () => {
+    const value = form.getFieldValue('password');
+    return value && value.length && (
+      <div>
+        <Progress
+          strokeWidth={6}
+          percent={value.length * 10 > 100 ? 100 : value.length * 10}
+          showInfo={false}
+        />
+      </div>
+    )
   }
 
   return (
@@ -49,21 +70,37 @@ const Register = () => {
               }
             ]}
           />
-          <InputItem
-            name="password"
-            type="password"
-            placeholder="至少6位密码， 区分大小写"
-            size="large"
-            rules={[
-              {
-                required: true,
-                message: '请输入密码！'
-              },
-              {
-                validator: checkPassword
-              }
-            ]}
-          />
+          <Popover
+            content={
+              visible && (
+                <div>
+                  {renderPasswordProgress()}
+                  <div>
+                    请至少输入6个字符，请不要使用容易被猜到的密码
+                  </div>
+                </div>
+              )
+            }
+            overlayStyle={{ width: 240 }}
+            placement="right"
+            visible={visible}
+          >
+            <InputItem
+              name="password"
+              type="password"
+              placeholder="至少6位密码， 区分大小写"
+              size="large"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入密码！'
+                },
+                {
+                  validator: checkPassword
+                }
+              ]}
+            />
+          </Popover>
           <InputItem
             name="confirm"
             type="password"
