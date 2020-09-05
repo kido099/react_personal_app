@@ -3,6 +3,30 @@ import { Form, Popover, Progress } from 'antd';
 import InputItem from '../../components/InputItem';
 import styles from './index.module.css';
 
+const passwordStatusMap = {
+  ok: (
+    <div className={styles.success}>
+      强度: 强
+    </div>
+  ),
+  pass: (
+    <div className={styles.warning}>
+      强度: 中
+    </div>
+  ),
+  poor: (
+    <div className={styles.error}>
+      强度: 弱
+    </div>
+  ),
+}
+
+const passwordProgressMap = {
+  ok: 'success',
+  pass: 'normal',
+  poor: 'exception',
+};
+
 const Register = () => {
   const [visible, setVisible] = useState(false); // hook
   const [popover, setPopover] = useState(false); // hook
@@ -17,6 +41,17 @@ const Register = () => {
       return promise.reject('两次输入的密码不匹配');
     }
     return promise.resolve();
+  }
+
+  const getPasswordStatus = () => {
+    const value = form.getFieldValue('password');
+    if (value && value.length > 9) {
+      return 'ok';
+    }
+    if (value && value.length > 5) {
+      return 'pass';
+    }
+    return 'poor';
   }
 
   const checkPassword = (_, value) => {
@@ -37,9 +72,11 @@ const Register = () => {
 
   const renderPasswordProgress = () => {
     const value = form.getFieldValue('password');
+    const passwordStatus = getPasswordStatus();
     return value && value.length && (
-      <div>
+      <div className={styles[`progress-${passwordStatus}`]}>
         <Progress
+          status={passwordProgressMap[passwordStatus]}
           strokeWidth={6}
           percent={value.length * 10 > 100 ? 100 : value.length * 10}
           showInfo={false}
@@ -74,6 +111,7 @@ const Register = () => {
             content={
               visible && (
                 <div>
+                  {passwordStatusMap[getPasswordStatus()]}
                   {renderPasswordProgress()}
                   <div>
                     请至少输入6个字符，请不要使用容易被猜到的密码

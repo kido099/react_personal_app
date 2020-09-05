@@ -11,3 +11,11 @@
   width: 368px;
   margin: 0 auto;
 }
+
+.success,
+.warning,
+.error {
+  transition: color 0.3s;
+}
+
+/* add color to these 3 */
