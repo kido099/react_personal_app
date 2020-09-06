@@ -19,3 +19,7 @@
 }
 
 /* add color to these 3 */
+
+.registerContainer .login {
+  float: right;
+}

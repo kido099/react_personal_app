@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Popover, Progress } from 'antd';
+import { Form, Popover, Progress, Select, Row, Col } from 'antd';
 import InputItem from '../../components/InputItem';
+import SubmitButton from '../../components/SubmitButton';
 import styles from './index.module.css';
+import { Link } from 'react-router-dom';
+
+const { Option } = Select;
 
 const passwordStatusMap = {
   ok: (
@@ -30,6 +34,7 @@ const passwordProgressMap = {
 const Register = () => {
   const [visible, setVisible] = useState(false); // hook
   const [popover, setPopover] = useState(false); // hook
+  const [prefix, setPrefix] = useState('86'); // hook
   const[form] = Form.useForm(); // hook
 
   const handleFinish = (values) => {
@@ -154,6 +159,57 @@ const Register = () => {
               }
             ]}
           />
+          <Row>
+            <Col span={6}>
+              <Select
+                size="large"
+                value={prefix}
+                onChange={(value) => setPrefix(value)}
+                style={{ width: '100%' }}
+              >
+                <Option value="86">+86</Option>
+                <Option value="1">+1</Option>
+              </Select>
+            </Col>
+            <Col span={18}>
+              <InputItem
+                name="mobile"
+                placeholder="手机号"
+                size="large"
+                rules={[
+                  {
+                    required: true,
+                    message: '请确认手机号！'
+                  },
+                  {
+                    pattern: /^\d{11}$/,
+                    message: '手机号格式错误！'
+                  }
+                ]}
+              />
+            </Col>
+          </Row>
+          <InputItem
+            name="captcha"
+            size="large"
+            rules={[
+              {
+                required: true,
+                message: "请输入验证码"
+              }
+            ]}
+            placeholder="验证码"
+          />
+          <Row justify="space-between" align="middle">
+            <Col span={8}>
+              <SubmitButton>注册</SubmitButton>
+            </Col>
+            <Col span={16}>
+              <Link className={styles.login} to='/login'>
+                使用已有账户登录
+              </Link>
+            </Col>
+          </Row>
         </Form>
       </div>
     </div>
