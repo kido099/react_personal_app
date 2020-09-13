@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Row, Col, Card, Divider } from 'antd';
+import { Row, Col, Card, Divider, Avatar } from 'antd';
+import { Link } from 'react-router-dom';
 import { ContactsOutlined, ClusterOutlined, HomeOutlined } from '@ant-design/icons';
 import Articles from './components/Articles';
 import Applications from './components/Applications';
 import Projects from './components/Projects';
+import TagList from './components/TagList';
 import { currentUser, fakeList } from './data.js';
 import styles from './index.module.css';
 
@@ -83,6 +85,24 @@ const Home = () => {
                 </div>
                 {renderUserInfo()}
                 <Divider dashed />
+                <TagList tags={currentUser.tags} />
+                <Divider dashed />
+                <div className={styles.team}>
+                  <div className={styles.teamTitle}>团队</div>
+                  <Row gutter={36}>
+                    {
+                      currentUser.notice &&
+                      currentUser.notice.map((item) => (
+                        <Col key={item.id} lg={24} xl={12}>
+                          <Link to="/setting">
+                            <Avatar size="small" src={item.logo} />
+                            {item.member}
+                          </Link>
+                        </Col>
+                      ))
+                    }
+                  </Row>
+                </div>
               </Card>
             </Col>
             <Col lg={17} md={24}>
