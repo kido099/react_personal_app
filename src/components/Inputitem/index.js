@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'redux-react-hook';
 import { Input, Form, Button, Row, Col, message } from 'antd';
+import { getCaptcha } from '../../actions/register';
 import styles from './index.module.css';
 
 const InputItem = (props) => {
+  const dispatch = useDispatch();
   //const { placeholder, size } = props;
   // Form.Item wrap then has gap between two input text fields
   const { name, rules, ...rest } = props;
@@ -11,6 +14,7 @@ const InputItem = (props) => {
 
   const handleClickCaptcha = () => {
     message.success('成功获取验证码1234');
+    dispatch(getCaptcha());
     setTiming(true);
   }
 
