@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'redux-react-hook';
-import { getCaptcha } from '../../actions/register';
 import { Input, Form, Button, Row, Col, message } from 'antd';
 import styles from './index.module.css';
 
 const InputItem = (props) => {
-  const dispatch = useDispatch();
   //const { placeholder, size } = props;
   // Form.Item wrap then has gap between two input text fields
-  const { name, rules, ...rest } = props;
+  const { name, rules, onClick, ...rest } = props;
   const [timing, setTiming] = useState(false); // 是否在倒计时
   const [count, setCount] = useState(props.countDown || 60); // 倒计时秒数
 
   const handleClickCaptcha = () => {
-    message.success('成功获取验证码1234');
-    dispatch(getCaptcha());
+    //message.success('成功获取验证码1234');
+    //dispatch(getCaptcha());
+    onClick();
     setTiming(true);
   }
 

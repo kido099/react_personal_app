@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'redux-react-hook';
 import { Form, Popover, Progress, Select, Row, Col } from 'antd';
 import InputItem from '../../components/InputItem';
 import SubmitButton from '../../components/SubmitButton';
+import { getCaptcha, register } from '../../actions/register';
 import styles from './index.module.css';
 import { Link } from 'react-router-dom';
 
@@ -32,6 +34,7 @@ const passwordProgressMap = {
 };
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false); // hook
   const [popover, setPopover] = useState(false); // hook
   const [prefix, setPrefix] = useState('86'); // hook
@@ -39,7 +42,9 @@ const Register = () => {
 
   const handleFinish = (values) => {
     console.log(values);
+    dispatch(register(values));
   }
+
   const checkConfirm = (_, value) => {
     const promise = Promise;
     if (value && value !== form.getFieldValue('password')) {
@@ -90,6 +95,14 @@ const Register = () => {
     )
   }
 
+  const handleClickCaptcha = () => {
+    form.validateFields(['username', 'email', 'password'])
+      .then(() => {
+        console.log(form.getFieldsValue(['username', 'email', 'password']));
+        dispatch(getCaptcha(form.getFieldsValue(['username', 'email', 'password'])));
+      })
+  }
+
   return (
     <div className={styles.registerContainer}>
       <div className={styles.register}>
@@ -98,7 +111,18 @@ const Register = () => {
           onFinish={handleFinish}
         >
           <InputItem
-            name="mail"
+            name="username"
+            placeholder="用户名"
+            size="large"
+            rules={[
+              {
+                required: true,
+                message: '请输入用户名！'
+              }
+            ]}
+          />
+          <InputItem
+            name="email"
             placeholder="邮箱"
             size="large"
             rules={[
@@ -199,6 +223,7 @@ const Register = () => {
               }
             ]}
             placeholder="验证码"
+            onClick={handleClickCaptcha}
           />
           <Row justify="space-between" align="middle">
             <Col span={8}>
