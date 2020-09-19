@@ -4,7 +4,7 @@ import { message } from 'antd';
 export function getCaptcha(payload = {}) {
   return async () => {
     console.log('test getCaptcha');
-    const { data: {code, message: msg, data: { captcha } = {}}} = await api.getCaptcha(payload);
+    const {code, message: msg, data: { captcha } = {}} = await api.getCaptcha(payload);
     if (code === 20020) {
       message.success(`${msg}, 验证码为${captcha}`);
     } else {
@@ -16,7 +16,7 @@ export function getCaptcha(payload = {}) {
 export function register(payload = {}) {
   return async () => {
     console.log('test register');
-    const { data: {code, message: msg }} = await api.register(payload);
+    const {code, message: msg } = await api.register(payload);
     if (code === 20023) {
       message.success(msg);
     } else {

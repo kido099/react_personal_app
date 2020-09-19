@@ -1,7 +1,10 @@
 import axios from 'axios';
+// 拦截器
+import * as interceptors from './interceptors';
 
-function getAxiosInstance(option) {
+function getAxiosInstance(options) {
   const instance = axios.create();
+  interceptors.install(instance, options);
   return instance;
 }
 
