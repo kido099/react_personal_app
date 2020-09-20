@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Tag, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import SkeletonInput from 'antd/lib/skeleton/Input';
 
 const TagList = ({ tags }) => {
   const [inputVisible, setInputVisible] = useState(false);

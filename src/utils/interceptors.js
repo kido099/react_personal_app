@@ -38,5 +38,8 @@ function doInstall(instance, options = {}) {
 export function install(instance, option = {}) {
   doInstall(instance, {
     type: 'response',
-  })
+  });
+  doInstall(instance, {
+    type: 'request',
+  });
 }

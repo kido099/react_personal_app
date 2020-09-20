@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Form, Button, Row, Col, message } from 'antd';
+import { Input, Form, Button, Row, Col } from 'antd';
 import styles from './index.module.css';
 
 const InputItem = (props) => {

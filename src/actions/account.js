@@ -29,10 +29,10 @@ export function login(payload = {}) {
   return async () => {
     console.log('test login');
     const {code, message: msg, data: { token } = {}} = await api.login(payload);
-    window.localStorage.setItem('personal-app-token', token);
-    window.location.href = ('/');
     if (code === 0) {
       message.success(msg);
+      window.localStorage.setItem('personal-app-token', token);
+      window.location.href = ('/');
     } else {
       message.error(msg);
     }

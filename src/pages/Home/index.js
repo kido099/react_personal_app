@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Divider, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
 import { ContactsOutlined, ClusterOutlined, HomeOutlined } from '@ant-design/icons';
@@ -7,6 +7,8 @@ import Applications from './components/Applications';
 import Projects from './components/Projects';
 import TagList from './components/TagList';
 import { currentUser, fakeList } from './data.js';
+import { useDispatch } from 'redux-react-hook';
+import { getUserProfile } from '../../actions/profile';
 import styles from './index.module.css';
 
 const articleList = fakeList(10);
@@ -73,10 +75,14 @@ const renderUserInfo = () => {
 }
 
 const Home = () => {
+  const dispatch = useDispatch();
   const [tabKey, setTabKey] = useState("articles");
   const onTabChange = (key) => {
     setTabKey(key);
   }
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
     return (
         <div className={styles.container}>
           <Row gutter={24}>
