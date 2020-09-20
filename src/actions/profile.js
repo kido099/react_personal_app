@@ -12,7 +12,7 @@ export function getUserProfile(payload = {}) {
     if (code === 0) {
       dispatch({ // dispatch here 一整个是个action
         type: GET_PROFILE,
-        PAYLOAD: data,
+        payload: data,
       })
     } else {
       message.error(msg);

@@ -7,13 +7,15 @@ import Applications from './components/Applications';
 import Projects from './components/Projects';
 import TagList from './components/TagList';
 import { currentUser, fakeList } from './data.js';
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch, useMappedState } from 'redux-react-hook';
 import { getUserProfile } from '../../actions/profile';
 import styles from './index.module.css';
 
 const articleList = fakeList(10);
 const applicationList = fakeList(10);
 const projectList = fakeList(10);
+
+const mapState = state => state.profile;
 
 const operationTabList = [
   {
@@ -76,6 +78,7 @@ const renderUserInfo = () => {
 
 const Home = () => {
   const dispatch = useDispatch();
+  const { user } = useMappedState(mapState);
   const [tabKey, setTabKey] = useState("articles");
   const onTabChange = (key) => {
     setTabKey(key);
