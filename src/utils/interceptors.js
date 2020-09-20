@@ -7,8 +7,23 @@ const responseInterceptors = [
   }
 ];
 
+const requestInterceptors = [
+  {
+    name: 'addHttpRequestHeader',
+    success(config) {
+      config.headers['Authorization'] = `Bearer ${window.localStorage.getItem('personal-app-token')}`;
+      return config;
+    },
+    fail(err) {
+      console.error('request error: ', err);
+      return Promise.reject(err);
+    }
+  }
+];
+
 const interceptors = {
-  response: responseInterceptors
+  response: responseInterceptors,
+  request: requestInterceptors,
 };
 
 function doInstall(instance, options = {}) {

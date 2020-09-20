@@ -1,4 +1,4 @@
-import * as api from '../api/register';
+import * as api from '../api/account';
 import { message } from 'antd';
 
 export function getCaptcha(payload = {}) {
@@ -16,8 +16,22 @@ export function getCaptcha(payload = {}) {
 export function register(payload = {}) {
   return async () => {
     console.log('test register');
-    const {code, message: msg } = await api.register(payload);
+    const {code, message: msg} = await api.register(payload);
     if (code === 20023) {
+      message.success(msg);
+    } else {
+      message.error(msg);
+    }
+  }
+}
+
+export function login(payload = {}) {
+  return async () => {
+    console.log('test login');
+    const {code, message: msg, data: { token } = {}} = await api.login(payload);
+    window.localStorage.setItem('personal-app-token', token);
+    window.location.href = ('/');
+    if (code === 0) {
       message.success(msg);
     } else {
       message.error(msg);

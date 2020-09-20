@@ -5,6 +5,8 @@ import {
   UserOutlined, LockTwoTone, MobileTwoTone,
   MailTwoTone, AlipayCircleOutlined, TaobaoCircleOutlined,
   WeiboCircleOutlined } from '@ant-design/icons';
+import { useDispatch } from 'redux-react-hook';
+import { login} from '../../actions/account';
 import InputItem from '../../components/InputItem';
 import SubmitButton from '../../components/SubmitButton';
 import styles from './index.module.css';
@@ -12,10 +14,13 @@ import styles from './index.module.css';
 const { TabPane } = Tabs;
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [autoLogin, setAutoLogin] = useState(true);
   const[form] = Form.useForm(); // hook
+
   const handleFinish = (values) => {
     console.log(values);
+    dispatch(login(values));
   }
 
     return (

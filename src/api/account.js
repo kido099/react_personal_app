@@ -8,3 +8,7 @@ export function getCaptcha(params) {
 export function register(params) {
   return ajax.post(`${HOST}/user/register`, { data: params });
 }
+
+export function login(params) {
+  return ajax.post(`${HOST}/user/login`, { data: params });
+}

@@ -3,7 +3,7 @@ import { useDispatch } from 'redux-react-hook';
 import { Form, Popover, Progress, Select, Row, Col } from 'antd';
 import InputItem from '../../components/InputItem';
 import SubmitButton from '../../components/SubmitButton';
-import { getCaptcha, register } from '../../actions/register';
+import { getCaptcha, register } from '../../actions/account';
 import styles from './index.module.css';
 import { Link } from 'react-router-dom';
 
