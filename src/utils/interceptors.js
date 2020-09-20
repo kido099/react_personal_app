@@ -4,6 +4,16 @@ const responseInterceptors = [
     success(response) {
       return response.data;
     }
+  },
+  {
+    name: 'handleError',
+    success(response) {
+      if (response.code === 70006) {
+        window.location.href = '/login';
+      } else {
+        return response;
+      }
+    }
   }
 ];
 
